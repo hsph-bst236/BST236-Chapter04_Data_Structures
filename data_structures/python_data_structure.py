@@ -27,6 +27,7 @@ my_list.append(6)
 my_list.extend([7, 8])
 print("After append/extend:", my_list)
 print("Element at index 2:", my_list[2])
+print("Index of element 5:", my_list.index(5))
 
 #%% List Slicing Examples
 print("\nList Slicing Examples:")
@@ -173,6 +174,9 @@ print("Original dictionary:", hmap)
 hmap['d'] = 4
 print("After adding 'd':", hmap)
 print("Value of 'b':", hmap['b'])
+print("Value of 'e':", hmap['e'])
+print("Value of 'e':", hmap.get('e'))
+
 
 # Dictionary comprehension
 squared_dict = {k: v**2 for k, v in hmap.items()}
@@ -302,7 +306,7 @@ print(f"Numpy array size: {sys.getsizeof(np.arange(n)):,} bytes")
 # Use Lists for:
 # * General purpose programming
 # * Small datasets
-# *Mixed data types
+# * Mixed data types
 # Use NumPy Arrays for:
 # * Scientific computing
 # * Vectorized operations
@@ -341,6 +345,28 @@ print(sample_df[sample_df['A'] > 5])
 print("\nRows 1-3, columns A and C:")
 print(sample_df.loc[1:3, ['A','C']])
 
+#%% Pandas Apply
+print("\nPandas Apply:")
+# Create sample DataFrame
+df = pd.DataFrame({
+    'A': [1, 2, 3],
+    'B': [4, 5, 6],
+    'C': [7, 8, 9]
+})
+print("Original DataFrame:")
+print(df)
+
+# Apply exp to each element using apply
+print("\nAfter applying exp to each element:")
+print(df.apply(np.exp))
+
+# Apply mean to specific column
+print("\nApply mean to each column:")
+print(df.apply(np.mean))
+print("\nApply mean to each row:")
+print(df.apply(np.mean, axis=1))
+
+
 #%% Pandas Performance Comparison
 print("\nComparing pandas vs loop for data analysis:")
 
@@ -363,3 +389,42 @@ n = 10000000
 _ = calculate_means_with_loop(n)
 _ = calculate_means_with_pandas(n)
 
+#%% Group by 
+# Create a sample DataFrame
+df = pd.DataFrame({
+    'Category': ['Fruit', 'Fruit', 'Vegetable', 'Vegetable', 'Fruit', 'Vegetable'],
+    'Name': ['Apple', 'Banana', 'Carrot', 'Broccoli', 'Orange', 'Spinach'],
+    'Price': [1.2, 0.5, 0.8, 1.5, 0.7, 1.0],
+    'Quantity': [10, 15, 20, 12, 8, 25]
+})
+
+# Group by Category and calculate mean price
+category_avg_price = df.groupby('Category')['Price'].mean()
+print("Average Price by Category:")
+print(category_avg_price)
+
+# Multiple Aggregations
+category_summary = df.groupby('Category').agg({
+    'Price': 'mean',    # Average price
+    'Quantity': 'sum',  # Total quantity
+    'Name': 'count'     # Number of items
+})
+print("\nCategory Summary:")
+print(category_summary)
+
+# Custom Aggregation Functions
+def price_range(x):
+    return x.max() - x.min()
+
+custom_agg = df.groupby('Category').agg({
+    'Price': [
+        ('Avg Price', 'mean'),
+        ('Price Range', price_range)
+    ],
+    'Quantity': [
+        ('Total Quantity', 'sum'),
+        ('Avg Quantity', 'mean')
+    ]
+})
+print("\nCustom Category Aggregation:")
+print(custom_agg)

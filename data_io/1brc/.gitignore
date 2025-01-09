@@ -1,7 +1,6 @@
-# Speicalized
-.python-version
+# Special files
 measurements.txt
-Makefile
+
 
 # R specific
 .Rproj.user/
@@ -12,7 +11,7 @@ Makefile
 
 
 # data
-raw_data/*
+ raw_data/*
 # data/*
 
 
