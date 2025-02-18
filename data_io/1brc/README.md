@@ -10,6 +10,12 @@ We expect you to get to know the following libraries:
 - Pypy: A Python interpreter that can speed up Python code.
 - Multiprocessing: A library for parallel execution of Python code.
 
+## Python Timing
 
+```bash
+python -m cProfile your_script.py
+viztracer your_script.py
+viztracer --include_files ./ --run my_script.py
+```
 
 
