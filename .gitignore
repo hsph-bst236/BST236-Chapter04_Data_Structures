@@ -43,6 +43,7 @@ Thumbs.db
 *.swp
 *.swo
 *~
+data_structures/chapter_data_structures/*
 
 # Temporary files
 *.tmp

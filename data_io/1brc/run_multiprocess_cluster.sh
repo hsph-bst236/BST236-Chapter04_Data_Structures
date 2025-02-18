@@ -10,7 +10,10 @@
 echo "Job started"
 echo "SLURM_CPUS_PER_TASK: $SLURM_CPUS_PER_TASK"
 
+# virtual environment
+source venv/bin/activate
 # Run the Python script
-python3 multiprocessing_template.py
+# python3 multiprocessing_template.py
+python3 test_multiprocess.py
 
 echo "Job ended"
