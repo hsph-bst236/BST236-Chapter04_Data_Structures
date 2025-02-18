@@ -300,7 +300,7 @@ def calculate_with_numpy(size=1000):
     return numbers ** 2
 
 # Compare calculations
-n = 10000000
+n = 10_000_000
 _ = calculate_with_list(n)
 _ = calculate_with_numpy(n)
 
@@ -375,24 +375,24 @@ print(df.apply(np.mean, axis=1))
 #%% Pandas Performance Comparison
 print("\nComparing pandas vs loop for data analysis:")
 
+size=1_000_000
+data = {'A': list(range(size)), 'B': list(range(size))}
+df = pd.DataFrame(data)
+
 @timer_decorator
-def calculate_means_with_loop(size=1000):
-    data = {'A': list(range(size)), 'B': list(range(size))}
+def calculate_means_with_loop():
     column_means = {}
     for col in data:
         column_means[col] = sum(data[col]) / len(data[col])
     return column_means
 
 @timer_decorator
-def calculate_means_with_pandas(size=1000):
-    data = {'A': list(range(size)), 'B': list(range(size))}
-    df = pd.DataFrame(data)
+def calculate_means_with_pandas():
     return df.mean()
 
 # Compare mean calculations
-n = 10000000
-_ = calculate_means_with_loop(n)
-_ = calculate_means_with_pandas(n)
+_ = calculate_means_with_loop()
+_ = calculate_means_with_pandas()
 
 #%% Group by 
 # Create a sample DataFrame
