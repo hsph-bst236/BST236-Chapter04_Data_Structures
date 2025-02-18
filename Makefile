@@ -1,5 +1,5 @@
 # Github variables
-REPO_NAME = BST236-Chapter03_Data_Structures
+REPO_NAME = BST236-Chapter04_Data_Structures
 GITHUB_USER = hsph-bst236
 BRANCH = main
 

@@ -12,6 +12,7 @@ def process_data(file_path, chunk_size=1000000):
     reader = pd.read_csv(file_path, sep=';', header=None, names=['city', 'temp'], chunksize=chunk_size)
 
     # Process each chunk
+    # for chunk in reader:
     for chunk in tqdm(reader, desc="Processing chunks"):
         # Gr oup by 'city' and calculate min, max, and mean for the chunk
         results = chunk.groupby('city')['temp'].agg(['min', 'max', 'mean']).rename(columns={
@@ -28,14 +29,22 @@ def process_data(file_path, chunk_size=1000000):
         'temperature_max': 'max',
         'temperature_mean': 'mean'
     })
+    final_results = final_results.sort_index()  # sort by city
 
     end_time = time.time()  # End timing
     elapsed_time = end_time - start_time  # Calculate elapsed time
-
     print(f"Elapsed Time: {elapsed_time:.2f} seconds")  # Print the elapsed time
+
+    # Print final results in the requested format
+    print("{", end="")
+    for city, row in final_results.iterrows():
+        print(
+            f"{city}={row['temperature_min']:.1f}/{row['temperature_mean']:.1f}/{row['temperature_max']:.1f}",
+            end=", "
+        )
+    print("\b\b} ")  # Remove trailing comma and space, then close bracket
     return final_results
 
 # Specify your file path
 file_path = 'measurements.txt'
-city_stats = process_data(file_path)
-print(city_stats) 
+process_data(file_path)

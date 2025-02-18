@@ -24,25 +24,20 @@ print("-----------------")
 my_list = [1, 2, 3, 4, 5]
 print("Original list:", my_list)
 my_list.append(6)
+my_list.extend([7, 8])
 print("After append/extend:", my_list)
 print("Element at index 2:", my_list[2])
-# search for element 5
 print("Index of element 5:", my_list.index(5))
-# delete element at index 0
-del my_list[0]
-
 
 #%% List Slicing Examples
 print("\nList Slicing Examples:")
 sample_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 print("Original list:", sample_list)
-# list[start:stop:step]
 print("First 3 elements [0:3]:", sample_list[0:3])
 print("Last 3 elements [-3:]:", sample_list[-3:])
 print("Every second element [::2]:", sample_list[::2])
 print("Reverse list [::-1]:", sample_list[::-1])
 print("Elements from index 2 to 7 [2:7]:", sample_list[2:7])
-
 
 #%% List as a Stack
 print("\nList as a Stack:")
@@ -311,7 +306,7 @@ print(f"Numpy array size: {sys.getsizeof(np.arange(n)):,} bytes")
 # Use Lists for:
 # * General purpose programming
 # * Small datasets
-# * Mixed data types
+# *Mixed data types
 # Use NumPy Arrays for:
 # * Scientific computing
 # * Vectorized operations
@@ -394,42 +389,3 @@ n = 10000000
 _ = calculate_means_with_loop(n)
 _ = calculate_means_with_pandas(n)
 
-#%% Group by 
-# Create a sample DataFrame
-df = pd.DataFrame({
-    'Category': ['Fruit', 'Fruit', 'Vegetable', 'Vegetable', 'Fruit', 'Vegetable'],
-    'Name': ['Apple', 'Banana', 'Carrot', 'Broccoli', 'Orange', 'Spinach'],
-    'Price': [1.2, 0.5, 0.8, 1.5, 0.7, 1.0],
-    'Quantity': [10, 15, 20, 12, 8, 25]
-})
-
-# Group by Category and calculate mean price
-category_avg_price = df.groupby('Category')['Price'].mean()
-print("Average Price by Category:")
-print(category_avg_price)
-
-# Multiple Aggregations
-category_summary = df.groupby('Category').agg({
-    'Price': 'mean',    # Average price
-    'Quantity': 'sum',  # Total quantity
-    'Name': 'count'     # Number of items
-})
-print("\nCategory Summary:")
-print(category_summary)
-
-# Custom Aggregation Functions
-def price_range(x):
-    return x.max() - x.min()
-
-custom_agg = df.groupby('Category').agg({
-    'Price': [
-        ('Avg Price', 'mean'),
-        ('Price Range', price_range)
-    ],
-    'Quantity': [
-        ('Total Quantity', 'sum'),
-        ('Avg Quantity', 'mean')
-    ]
-})
-print("\nCustom Category Aggregation:")
-print(custom_agg)

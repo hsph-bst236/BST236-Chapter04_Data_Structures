@@ -33,14 +33,21 @@ def process_data(file_path, chunk_size=1000000):
                            names=['city', 'temp'], 
                            chunksize=chunk_size)
         
-        # Process chunks in parallel using imap to maintain order
-        # Wrap with tqdm for progress tracking
+
+        # Fancy tqdm loop:
+        # results = []
+        # for chunk_result in tqdm(
+        #     pool.imap(process_chunk, reader),
+        #     total=total_chunks,
+        #     desc="Processing chunks"
+        # ):
+        #     results.append(chunk_result)
+        
+        # Plain for loop:
         results = []
-        for chunk_result in tqdm(
-            pool.imap(process_chunk, reader),
-            total=total_chunks,
-            desc="Processing chunks"
-        ):
+        # Process chunks in parallel
+        chunk_iterator = pool.imap(process_chunk, reader)
+        for chunk_result in chunk_iterator:
             results.append(chunk_result)
 
         # Combine all results
@@ -61,6 +68,15 @@ if __name__ == '__main__':
     city_stats = process_data(file_path)
     end_time = time.time()
     elapsed_time = end_time - start_time
-    print(city_stats)
+    
+    # Print final results
+    print("{", end="")
+    for city, row in city_stats.iterrows():
+        print(
+            f"{city}={row['temperature_min']:.1f}/{row['temperature_mean']:.1f}/{row['temperature_max']:.1f}",
+            end=", "
+        )
+    print("\b\b} ")
+    
     print(f"Elapsed Time: {elapsed_time:.2f} seconds")
-   
+
